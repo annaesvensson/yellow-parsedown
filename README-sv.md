@@ -140,7 +140,7 @@ Använd förkortningar:
 
     Förkortningar kräver ytterligare tillägg för att fungera.
 
-## Settings
+## Inställningar
 
 Standardparsern definieras i filen `system/extensions/yellow-system.ini`. En annan parser kan definieras i [sidinställningarna](https://github.com/annaesvensson/yellow-core/tree/main/README-sv.md#inställningar-page) högst upp på varje sida, till exempel `Parser: parsedown`.
 
