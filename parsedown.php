@@ -1,5 +1,5 @@
 <?php
-// Parsedown extension, https://github.com/datenstrom/yellow-extensions/tree/master/source/parsedown
+// Parsedown extension, https://github.com/annaesvensson/yellow-parsedown
 
 class YellowParsedown {
     const VERSION = "0.8.21";
