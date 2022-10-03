@@ -152,4 +152,4 @@ Detta tilläg använder [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev
 
 ## Utvecklare
 
-Datenstrom. [Få hjälp](https://datenstrom.se/sv/yellow/help/).
+Anna Svensson. [Få hjälp](https://datenstrom.se/sv/yellow/help/).

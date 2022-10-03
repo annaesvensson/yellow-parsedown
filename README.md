@@ -152,4 +152,4 @@ This extension uses [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/par
 
 ## Developer
 
-Datenstrom. [Get help](https://datenstrom.se/yellow/help/).
+Anna Svensson. [Get help](https://datenstrom.se/yellow/help/).
