@@ -148,7 +148,7 @@ Standardparsern definieras i filen `system/extensions/yellow-system.ini`. En ann
 
 [Ladda ner tillägg](https://github.com/annaesvensson/yellow-parsedown/archive/main.zip) och kopiera zip-fil till din `system/extensions` mapp. Högerklicka om du använder Safari.
 
-Detta tilläg använder [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) av Emanuil Rusev.
+Detta tilläg innehåller [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) av Emanuil Rusev.
 
 ## Utvecklare
 

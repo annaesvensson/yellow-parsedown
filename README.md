@@ -148,7 +148,7 @@ The default parser is defined in file `system/extensions/yellow-system.ini`. A d
 
 [Download extension](https://github.com/annaesvensson/yellow-parsedown/archive/main.zip) and copy zip file into your `system/extensions` folder. Right click if you use Safari.
 
-This extension uses [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) by Emanuil Rusev.
+This extension includes [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) by Emanuil Rusev.
 
 ## Developer
 
