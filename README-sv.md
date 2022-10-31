@@ -14,7 +14,7 @@ Markdown är ett praktiskt sätt att redigera webbsidor. Skriv text som i ett e-
 
 Det finns förkortningar för att lägga till ytterligare funktioner. Du kan lägga till [bilder](https://github.com/annaesvensson/yellow-image/tree/main/README-sv.md), [bildgallerier](https://github.com/annaesvensson/yellow-gallery/tree/main/README-sv.md), [ikoner](https://github.com/annaesvensson/yellow-fontawesome/tree/main/README-sv.md) och ytterligare funktioner till innehållet. De tillgängliga förkortningar beror på installerade tillägg.
 
-Standardparsern definieras i filen `system/extensions/yellow-system.ini`. En annan parser kan definieras i [sidinställningarna](https://github.com/annaesvensson/yellow-core/tree/main/README-sv.md#inställningar-page) högst upp på varje sida, till exempel `Parser: parsedown`.
+Standard innehållsparsern definieras i filen `system/extensions/yellow-system.ini`. En annan innehållsparser kan definieras i [sidinställningarna](https://github.com/annaesvensson/yellow-core/tree/main/README-sv.md#inställningar-page) högst upp på varje sida, till exempel `Parser: parsedown`.
 
 ## Exempel
 
