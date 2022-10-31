@@ -10,7 +10,7 @@ Textformatierung für Menschen.
 
 Markdown ist eine praktische Art um Webseiten zu bearbeiten. Schreibe Text wie in einer E-Mail und daraus wird eine Webseite. Nach einer kurzen Zeit passiert das ganz natürlich, ohne dass man darüber nachdenkt. Hier ist die [Markdown-Syntax](http://commonmark.org/help/), eine Liste der [Markdown-Extra-Funktionen](https://michelf.ca/projects/php-markdown/extra/) und [GitHub-Flavored-Markdown](https://help.github.com/en/articles/basic-writing-and-formatting-syntax). 
 
-# Wie man Text anpasst
+## Wie man Text anpasst
 
 Es gibt Abkürzungen um zusätzliche Funktion einzubinden. Du kannst damit [Bilder](https://github.com/annaesvensson/yellow-image/tree/main/README-de.md), [Bildergalerien](https://github.com/annaesvensson/yellow-gallery/tree/main/README-de.md), [Icons](https://github.com/annaesvensson/yellow-fontawesome/tree/main/README-de.md) und weitere Funktionen in deine Webseiten einbinden. Die verfügbaren Abkürzungen hängen von den installierten Erweiterungen ab.
 
