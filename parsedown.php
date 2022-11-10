@@ -2,7 +2,7 @@
 // Parsedown extension, https://github.com/annaesvensson/yellow-parsedown
 
 class YellowParsedown {
-    const VERSION = "0.8.21";
+    const VERSION = "0.8.22";
     public $yellow;         // access to API
     
     // Handle initialisation
@@ -14,7 +14,7 @@ class YellowParsedown {
     public function onParseContentRaw($page, $text) {
         $parsedown = new YellowParsedownParser($this->yellow, $page);
         $text = $parsedown->text($text);
-        $text = $this->yellow->toolbox->normaliseData($text, "html");
+        $text = $this->yellow->lookup->normaliseData($text, "html");
         return $text;
     }
 }
