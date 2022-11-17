@@ -169,7 +169,7 @@ class YellowExample {
 ```
 ## Acknowledgments
 
-This extension includes [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) by Emanuil Rusev. Thanks for the great work.
+This extension includes [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) by Emanuil Rusev. Thank you for the good work.
 
 ## Installation
 

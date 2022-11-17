@@ -170,7 +170,7 @@ class YellowExample {
 
 ## Danksagung
 
-Diese Erweiterung enthält [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) von Emanuil Rusev. Danke für die tolle Arbeit.
+Diese Erweiterung enthält [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) von Emanuil Rusev. Danke für die gute Arbeit.
 
 ## Installation
 
