@@ -168,11 +168,13 @@ class YellowExample {
 }
 ```
 
+## Danksagung
+
+Diese Erweiterung enthält [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) von Emanuil Rusev. Danke für die tolle Arbeit.
+
 ## Installation
 
 [Erweiterung herunterladen](https://github.com/annaesvensson/yellow-parsedown/archive/main.zip) und die ZIP-Datei in dein `system/extensions`-Verzeichnis kopieren. [Weitere Informationen zu Erweiterungen](https://github.com/annaesvensson/yellow-update/tree/main/README-de.md).
-
-Diese Erweiterung enthält [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) von Emanuil Rusev.
 
 ## Entwickler
 

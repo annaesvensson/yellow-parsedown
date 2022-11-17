@@ -167,12 +167,13 @@ class YellowExample {
     }
 }
 ```
+## Acknowledgments
+
+This extension includes [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) by Emanuil Rusev. Thanks for the great work.
 
 ## Installation
 
 [Download extension](https://github.com/annaesvensson/yellow-parsedown/archive/main.zip) and copy ZIP file into your `system/extensions` folder. [Learn more about extensions](https://github.com/annaesvensson/yellow-update).
-
-This extension includes [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) by Emanuil Rusev.
 
 ## Developer
 
