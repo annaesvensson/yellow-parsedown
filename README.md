@@ -6,6 +6,10 @@ Text formatting for humans.
 
 <p align="center"><img src="parsedown-screenshot.png?raw=true" alt="Screenshot"></p>
 
+## How to install an extension
+
+[Download ZIP file](https://github.com/annaesvensson/yellow-parsedown/archive/main.zip) and copy it into your `system/extensions` folder. [Learn more about extensions](https://github.com/annaesvensson/yellow-update).
+
 ## How to format text
 
 Markdown is a practical way to edit web pages. Write text like you would in an email and it becomes a web page. After a short while, it happens naturally without you even thinking about it. Here's the [Markdown syntax](http://commonmark.org/help/), a list of [Markdown Extra features](https://michelf.ca/projects/php-markdown/extra/) and [GitHub Flavored Markdown](https://help.github.com/en/articles/basic-writing-and-formatting-syntax).
@@ -170,10 +174,6 @@ class YellowExample {
 ## Acknowledgements
 
 This extension includes [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) by Emanuil Rusev. Thank you for the good work.
-
-## Installation
-
-[Download extension](https://github.com/annaesvensson/yellow-parsedown/archive/main.zip) and copy ZIP file into your `system/extensions` folder. [Learn more about extensions](https://github.com/annaesvensson/yellow-update).
 
 ## Developer
 
