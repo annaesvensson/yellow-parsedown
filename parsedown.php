@@ -2,7 +2,7 @@
 // Parsedown extension, https://github.com/annaesvensson/yellow-parsedown
 
 class YellowParsedown {
-    const VERSION = "0.8.22";
+    const VERSION = "0.8.25";
     public $yellow;         // access to API
     
     // Handle initialisation
@@ -2792,19 +2792,19 @@ class YellowParsedownParser extends ParsedownExtra {
     protected function blockListComplete(array $Block) {
         $Block = parent::blockListComplete($Block);
         if ($Block["element"]["name"]=="ul") {
-            foreach ($Block["element"]["elements"] as &$element) {
-                $token = substr($element["handler"]["argument"][0], 0, 4);
+            foreach ($Block["element"]["elements"] as &$Element) {
+                $token = substr($Element["handler"]["argument"][0], 0, 4);
                 if ($token=='[ ] ' || $token=='[x] ') {
                     $attributes = $token=='[ ] ' ? array("type" => "checkbox", "disabled" => "disabled") :
                         array("type" => "checkbox", "disabled" => "disabled", "checked" => "checked");
-                    $element["handler"]["argument"][0] = substr($element["handler"]["argument"][0], 4);
-                    $element["elements"] = array(
+                    $Element["handler"]["argument"][0] = substr($Element["handler"]["argument"][0], 4);
+                    $Element["elements"] = array(
                         array("name" => "input", "attributes" => $attributes, "autobreak" => false),
                         array("text" => " "),
-                        array("handler" => $element["handler"])
+                        array("handler" => $Element["handler"])
                     );
-                    $element["attributes"] = array("class" => "task-list-item");
-                    unset($element["handler"]);
+                    $Element["attributes"] = array("class" => "task-list-item");
+                    unset($Element["handler"]);
                 }
             }
         }
@@ -2898,6 +2898,40 @@ class YellowParsedownParser extends ParsedownExtra {
             );
         }
         return $Link;
+    }
+    
+    // Handle footnote marker, normalise ids and links
+    protected function inlineFootnoteMarker($Excerpt) {
+        $Footnote = parent::inlineFootnoteMarker($Excerpt);
+        if ($Footnote) {
+            $id = $Footnote["element"]["attributes"]["id"];
+            $id = str_replace(":", "-", $id);
+            $href = $Footnote["element"]["element"]["attributes"]["href"];
+            $href = $this->page->base.$this->page->location.str_replace(":", "-", $href);
+            $Footnote["element"]["attributes"]["id"] = $id;
+            $Footnote["element"]["element"]["attributes"]["href"] = $href;
+            $Footnote["element"]["element"]["attributes"]["role"] = "doc-noteref";
+        }
+        return $Footnote;
+    }
+    
+    // Handle footnote references, normalise ids and links
+    protected function buildFootnoteElement() {
+        $FootnoteElement = parent::buildFootnoteElement();
+        foreach ($FootnoteElement["elements"][1]["elements"] as &$OuterElement) {
+            $id = $OuterElement["attributes"]["id"];
+            $id = str_replace(":", "-", $id);
+            $OuterElement["attributes"]["id"] = $id;
+            foreach ($OuterElement["elements"][0]["elements"] as &$InnerElement) {
+                if (isset($InnerElement["name"]) && $InnerElement["name"]=="a") {
+                    $href = $InnerElement["attributes"]["href"];
+                    $href = $this->page->base.$this->page->location.str_replace(":", "-", $href);
+                    $InnerElement["attributes"]["href"] = $href;
+                    $InnerElement["attributes"]["role"] = "doc-backlink";
+                }
+            }
+        }
+        return $FootnoteElement;
     }
     
     // Return unique id attribute
