@@ -2,7 +2,7 @@
 // Parsedown extension, https://github.com/annaesvensson/yellow-parsedown
 
 class YellowParsedown {
-    const VERSION = "0.8.25";
+    const VERSION = "0.8.26";
     public $yellow;         // access to API
     
     // Handle initialisation
@@ -2879,7 +2879,7 @@ class YellowParsedownParser extends ParsedownExtra {
             if (isset($text[0]) && $text[0]=="!" && !preg_match("/^\w+:/", $href)) {
                 $href = $this->yellow->system->get("coreServerBase").$this->yellow->system->get("coreImageLocation").$href;
             }
-            $href = $this->yellow->lookup->normaliseLocation($href, $this->page->location);
+            $href = $this->yellow->lookup->normaliseLocation($href, $this->page->getPage("main")->location);
             $Link["element"]["attributes"]["href"] = $href;
         }
         return $Link;

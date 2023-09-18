@@ -1,6 +1,6 @@
 <p align="right"><a href="README-de.md">Deutsch</a> &nbsp; <a href="README.md">English</a> &nbsp; <a href="README-sv.md">Svenska</a></p>
 
-# Parsedown 0.8.25
+# Parsedown 0.8.26
 
 Text formatting for humans.
 
