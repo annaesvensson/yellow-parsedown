@@ -2,7 +2,7 @@
 // Parsedown extension, https://github.com/annaesvensson/yellow-parsedown
 
 class YellowParsedown {
-    const VERSION = "0.8.26";
+    const VERSION = "0.8.27";
     public $yellow;         // access to API
     
     // Handle initialisation
@@ -2717,7 +2717,7 @@ class YellowParsedownParser extends ParsedownExtra {
     protected function blockShortcutText($Line, $Block) {
         $Block = null;
         if (preg_match("/^\[(\w+)([^\]]*)\]\s*$/", $Line["text"], $matches)) {
-            $output = $this->page->parseContentShortcut($matches[1], trim($matches[2]), "block");
+            $output = $this->page->parseContentElement($matches[1], trim($matches[2]), "", "block");
             if (!is_null($output)) {
                 $Block = array(
                     "element" => array("rawHtml" => $output, "allowRawHtmlInSafeMode" => true, "autobreak" => true),
@@ -2738,7 +2738,7 @@ class YellowParsedownParser extends ParsedownExtra {
     protected function inlineShortcutText($Excerpt) {
         $Block = null;
         if (preg_match("/\[(\w+)(.*?)\]/", $Excerpt["text"], $matches)) {
-            $output = $this->page->parseContentShortcut($matches[1], trim($matches[2]), "inline");
+            $output = $this->page->parseContentElement($matches[1], trim($matches[2]), "", "inline");
             if (!is_null($output)) {
                 $Block = array(
                     "element" => array("rawHtml" => $output, "allowRawHtmlInSafeMode" => true),
@@ -2759,7 +2759,7 @@ class YellowParsedownParser extends ParsedownExtra {
     protected function inlineShortcutSymbol($Excerpt) {
         $Block = null;
         if (preg_match("/\:([\w\+\-\_]+)\:/", $Excerpt["text"], $matches)) {
-            $output = $this->page->parseContentShortcut("", $matches[1], "symbol");
+            $output = $this->page->parseContentElement("", $matches[1], "", "symbol");
             if (!is_null($output)) {
                 $Block = array(
                     "element" => array("rawHtml" => $output, "allowRawHtmlInSafeMode" => true),
@@ -2780,7 +2780,7 @@ class YellowParsedownParser extends ParsedownExtra {
                 $name = preg_replace("/language-(.*)/", "$1", $Block["element"]["element"]["attributes"]["class"]);
                 $name = preg_replace("/{(.*)}/", "$1", $name);
             }
-            $output = $this->page->parseContentShortcut($name, $text, "code");
+            $output = $this->page->parseContentElement($name, $text, "", "code");
             if (!is_null($output)) {
                 $Block["element"] = array("rawHtml" => $output, "allowRawHtmlInSafeMode" => true, "autobreak" => true);
             }
