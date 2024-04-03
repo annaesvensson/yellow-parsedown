@@ -2,7 +2,7 @@
 // Parsedown extension, https://github.com/annaesvensson/yellow-parsedown
 
 class YellowParsedown {
-    const VERSION = "0.8.27";
+    const VERSION = "0.8.28";
     public $yellow;         // access to API
     
     // Handle initialisation
@@ -2775,11 +2775,7 @@ class YellowParsedownParser extends ParsedownExtra {
         $Block = parent::blockFencedCodeComplete($Block);
         if ($Block) {
             $text = $Block["element"]["element"]["text"];
-            $name = "";
-            if (isset($Block["element"]["element"]["attributes"]["class"])) {
-                $name = preg_replace("/language-(.*)/", "$1", $Block["element"]["element"]["attributes"]["class"]);
-                $name = preg_replace("/{(.*)}/", "$1", $name);
-            }
+            $name = $this->getBlockName($Block, "");
             $output = $this->page->parseContentElement($name, $text, "", "code");
             if (!is_null($output)) {
                 $Block["element"] = array("rawHtml" => $output, "allowRawHtmlInSafeMode" => true, "autobreak" => true);
@@ -2842,6 +2838,21 @@ class YellowParsedownParser extends ParsedownExtra {
             $Block["element"]["handler"]["argument"][] = $Line["text"];
             return $Block;
         }
+    }
+    
+    // Handle notice block event
+    protected function blockNoticeComplete($Block) {
+        $name = $this->getBlockName($Block, "");
+        if (!is_string_empty($name)) {
+            $output = $this->page->parseContentElement($name, "[--notice--]", "", "notice");
+            if (!is_null($output) && preg_match("/^(.+)(\[--notice--\])(.+)$/s", $output, $parts)) {
+                $text = implode("\n", $Block["element"]["handler"]["argument"]);
+                $text = $this->processTag("<p markdown=\"1\">$text</p>");
+                $output = $parts[1].$text.$parts[3];
+                $Block["element"] = array("rawHtml" => $output, "allowRawHtmlInSafeMode" => true, "autobreak" => true);
+            }
+        }
+        return $Block;
     }
     
     // Handle headers, atx style
@@ -2932,6 +2943,22 @@ class YellowParsedownParser extends ParsedownExtra {
             }
         }
         return $FootnoteElement;
+    }
+    
+    // Return suitable name for code block or notice block
+    public function getBlockName($Block, $attributes) {
+        if (isset($Block["element"]["element"]["attributes"]["class"])) {
+            $language = preg_replace("/language-(.*)/", "$1", $Block["element"]["element"]["attributes"]["class"]);
+            $name = ltrim($language, ".");
+        } elseif (isset($Block["element"]["attributes"]["class"])) {
+            $name = $Block["element"]["attributes"]["class"];
+        } else {
+            $name = "";
+            foreach (explode(" ", $attributes) as $token) {
+                if (substru($token, 0, 1)==".") { $name = substru($token, 1); break; }
+            }
+        }
+        return $name;
     }
     
     // Return unique id attribute
