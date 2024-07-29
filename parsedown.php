@@ -2,7 +2,7 @@
 // Parsedown extension, https://github.com/annaesvensson/yellow-parsedown
 
 class YellowParsedown {
-    const VERSION = "0.9.1";
+    const VERSION = "0.9.2";
     public $yellow;         // access to API
     
     // Handle initialisation
@@ -2968,7 +2968,7 @@ class YellowParsedownParser extends ParsedownExtra {
         if (!isset($this->idAttributes[$text])) {
             $this->idAttributes[$text] = $text;
         } else {
-            $text = null;
+            $text = "error-duplicate-heading";
         }
         return $text;
     }
