@@ -2,7 +2,7 @@
 // Parsedown extension, https://github.com/annaesvensson/yellow-parsedown
 
 class YellowParsedown {
-    const VERSION = "0.9.2";
+    const VERSION = "0.9.3";
     public $yellow;         // access to API
     
     // Handle initialisation
@@ -2900,7 +2900,7 @@ class YellowParsedownParser extends ParsedownExtra {
     protected function inlineEmailLink($Excerpt) {
         $Link = null;
         if ($this->urlsLinked &&
-            preg_match("/([\w\+\-\.]+@[\w\-\.]+\.[\w]{2,4})/", $Excerpt["context"], $matches, PREG_OFFSET_CAPTURE)) {
+            preg_match("/([\w\+\-\.]+@[\w\-\.]+\.[\w]+)/", $Excerpt["context"], $matches, PREG_OFFSET_CAPTURE)) {
             $email = $matches[1][0];
             $Link = array(
                 "extent" => strlen($matches[1][0]),
