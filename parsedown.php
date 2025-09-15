@@ -2,7 +2,7 @@
 // Parsedown extension, https://github.com/annaesvensson/yellow-parsedown
 
 class YellowParsedown {
-    const VERSION = "0.9.3";
+    const VERSION = "0.9.4";
     public $yellow;         // access to API
     
     // Handle initialisation
@@ -2703,7 +2703,7 @@ class YellowParsedownParser extends ParsedownExtra {
         $this->yellow = $yellow;
         $this->page = $page;
         $this->idAttributes = array();
-        $this->BlockTypes["!"][] = "Notice";
+        $this->BlockTypes["!"][] = "General";
         $this->BlockTypes["["][] = "ShortcutText";
         $this->InlineTypes["["][]= "ShortcutText";
         $this->inlineMarkerList .= "[";
@@ -2807,10 +2807,9 @@ class YellowParsedownParser extends ParsedownExtra {
         return $Block;
     }
     
-    // Handle notice blocks
-    protected function blockNotice($Line, $Block) {
+    // Handle general block elements
+    protected function blockGeneral($Line, $Block) {
         if (preg_match("/^!(?!\[)[ ]?+(.*+)/", $Line["text"], $matches)) {
-            $recursive = is_null($Block);
             $Block = array(
                 "element" => array(
                     "name" => "div",
@@ -2820,16 +2819,13 @@ class YellowParsedownParser extends ParsedownExtra {
             if (preg_match("/^[ ]*{(".$this->regexAttribute."+)}[ ]*$/", $matches[1], $matches)) {
                 $Block["element"]["attributes"] = $this->parseAttributeData($matches[1]);
                 $Block["element"]["handler"]["argument"] = array();
-            } elseif (!$recursive) {
-                $level = strspn(str_replace(array("![", " "), "", $Line["text"]), "!");
-                $Block["element"]["attributes"] = array("class" => "notice$level");
             }
             return $Block;
         }
     }
     
-    // Handle notice blocks over multiple lines
-    protected function blockNoticeContinue($Line, $Block) {
+    // Handle general block elements over multiple lines
+    protected function blockGeneralContinue($Line, $Block) {
         if (preg_match("/^!(?!\[)[ ]?+(.*+)/", $Line["text"], $matches) && !isset($Block["interrupted"])) {
             $Block["element"]["handler"]["argument"][] = $matches[1];
             return $Block;
@@ -2840,12 +2836,12 @@ class YellowParsedownParser extends ParsedownExtra {
         }
     }
     
-    // Handle notice block event
-    protected function blockNoticeComplete($Block) {
+    // Handle general block elements and check event handler
+    protected function blockGeneralComplete($Block) {
         $name = $this->getBlockName($Block, "");
         if (!is_string_empty($name)) {
-            $output = $this->page->parseContentElement($name, "[--notice--]", "", "notice");
-            if (!is_null($output) && preg_match("/^(.+)(\[--notice--\])(.+)$/s", $output, $parts)) {
+            $output = $this->page->parseContentElement($name, "[--general--]", "", "general");
+            if (!is_null($output) && preg_match("/^(.+)(\[--general--\])(.+)$/s", $output, $parts)) {
                 $text = implode("\n", $Block["element"]["handler"]["argument"]);
                 $text = $this->processTag("<p markdown=\"1\">$text</p>");
                 $output = $parts[1].$text.$parts[3];
@@ -2945,7 +2941,7 @@ class YellowParsedownParser extends ParsedownExtra {
         return $FootnoteElement;
     }
     
-    // Return suitable name for code block or notice block
+    // Return suitable name for code block or general block
     public function getBlockName($Block, $attributes) {
         if (isset($Block["element"]["element"]["attributes"]["class"])) {
             $language = preg_replace("/language-(.*)/", "$1", $Block["element"]["element"]["attributes"]["class"]);
