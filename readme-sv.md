@@ -1,8 +1,6 @@
-<p align="right"><a href="readme-de.md">Deutsch</a> &nbsp; <a href="readme.md">English</a> &nbsp; <a href="readme-sv.md">Svenska</a></p>
-
 # Parsedown 0.9.4
 
-Textformatering för människor.
+Textformatering för människor. Utvecklad av Anna Svensson.
 
 <p align="center"><img src="screenshot.png" alt="Skärmdump"></p>
 
@@ -181,6 +179,4 @@ class YellowExample {
 
 Detta tillägg innehåller [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) av Emanuil Rusev. Tack för ett bra jobb.
 
-## Utvecklare
-
-Anna Svensson. [Få hjälp](https://datenstrom.se/sv/yellow/help/).
+Har du några frågor? [Få hjälp](https://datenstrom.se/sv/yellow/help/).
