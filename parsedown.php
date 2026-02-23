@@ -2,7 +2,7 @@
 // Parsedown extension, https://github.com/annaesvensson/yellow-parsedown
 
 class YellowParsedown {
-    const VERSION = "0.9.4";
+    const VERSION = "0.9.6";
     public $yellow;         // access to API
     
     // Handle initialisation
@@ -2703,6 +2703,7 @@ class YellowParsedownParser extends ParsedownExtra {
         $this->yellow = $yellow;
         $this->page = $page;
         $this->idAttributes = array();
+        $this->BlockTypes["?"][] = "Collapsible";
         $this->BlockTypes["!"][] = "General";
         $this->BlockTypes["["][] = "ShortcutText";
         $this->InlineTypes["["][]= "ShortcutText";
@@ -2775,7 +2776,7 @@ class YellowParsedownParser extends ParsedownExtra {
         $Block = parent::blockFencedCodeComplete($Block);
         if ($Block) {
             $text = $Block["element"]["element"]["text"];
-            $name = $this->getBlockName($Block, "");
+            $name = $this->getBlockName($Block);
             $output = $this->page->parseContentElement($name, $text, "", "code");
             if (!is_null($output)) {
                 $Block["element"] = array("rawHtml" => $output, "allowRawHtmlInSafeMode" => true, "autobreak" => true);
@@ -2807,18 +2808,81 @@ class YellowParsedownParser extends ParsedownExtra {
         return $Block;
     }
     
+    // Handle collapsible block elements
+    protected function blockCollapsible($Line, $Block) {
+        if (preg_match("/^\?[ ]?+(.*+)/", $Line["text"], $matches)) {
+            $Block = array(
+                "element" => array(
+                    "name" => "details",
+                    "handler" => array("function" => "linesElements", "argument" => array($matches[1]), "destination" => "elements"),
+                    "data" => array("specialAttributes" => ""),
+                ),
+            );
+            if (preg_match("/^[ ]*{(".$this->regexAttribute."+)}[ ]*$/", $matches[1], $matches)) {
+                $Block["element"]["handler"]["argument"] = array();
+                $Block["element"]["data"]["specialAttributes"] = $matches[1];
+                $Block["element"]["attributes"] = $this->parseAttributeData($matches[1]);
+            }
+            return $Block;
+        }
+    }
+    
+    // Handle collapsible block elements over multiple lines
+    protected function blockCollapsibleContinue($Line, $Block) {
+        if (preg_match("/^\?[ ]?+(.*+)/", $Line["text"], $matches) && !isset($Block["interrupted"])) {
+            $Block["element"]["handler"]["argument"][] = $matches[1];
+            return $Block;
+        }
+        if (!isset($Block["interrupted"])) {
+            $Block["element"]["handler"]["argument"][] = $Line["text"];
+            return $Block;
+        }
+    }
+    
+    // Handle collapsible block elements and check event handler
+    protected function blockCollapsibleComplete($Block) {
+        $name = $this->getBlockName($Block);
+        $text = implode("\n", $Block["element"]["handler"]["argument"]);
+        $attributes = $Block["element"]["data"]["specialAttributes"];
+        if (!is_string_empty($text)) {
+            $output = $this->page->parseContentElement($name, $text, $attributes, "collapsible");
+            if (!is_null($output)) {
+                $Block["element"] = array("rawHtml" => $output, "allowRawHtmlInSafeMode" => true, "autobreak" => true);
+            } else {
+                $summary = "";
+                if (preg_match("/^[ ]*(.*?)[ ]*\n(\n*)([\S\s]*)$/m", $text, $parts) && !is_string_empty($parts[2])) {
+                    $summary = $parts[1];
+                    $text = $parts[3];
+                }
+                if (!is_string_empty($summary)) {
+                    $Block["element"]["elements"][] = array(
+                        "name" => "summary",
+                        "handler" => array("function" => "lineElements", "argument" => $summary, "destination" => "elements"),
+                    );
+                }
+                $Block["element"]["elements"][] = array(
+                    "handler" => array("function" => "textElements", "argument" => $text, "destination" => "elements"),
+                );
+                unset($Block["element"]["handler"]);
+            }
+        }
+        return $Block;
+    }
+    
     // Handle general block elements
     protected function blockGeneral($Line, $Block) {
         if (preg_match("/^!(?!\[)[ ]?+(.*+)/", $Line["text"], $matches)) {
             $Block = array(
                 "element" => array(
                     "name" => "div",
-                    "handler" => array("function" => "linesElements", "argument" => (array)$matches[1], "destination" => "elements"),
+                    "handler" => array("function" => "linesElements", "argument" => array($matches[1]), "destination" => "elements"),
+                    "data" => array("specialAttributes" => ""),
                 ),
             );
             if (preg_match("/^[ ]*{(".$this->regexAttribute."+)}[ ]*$/", $matches[1], $matches)) {
-                $Block["element"]["attributes"] = $this->parseAttributeData($matches[1]);
                 $Block["element"]["handler"]["argument"] = array();
+                $Block["element"]["data"]["specialAttributes"] = $matches[1];
+                $Block["element"]["attributes"] = $this->parseAttributeData($matches[1]);
             }
             return $Block;
         }
@@ -2838,11 +2902,12 @@ class YellowParsedownParser extends ParsedownExtra {
     
     // Handle general block elements and check event handler
     protected function blockGeneralComplete($Block) {
-        $name = $this->getBlockName($Block, "");
-        if (!is_string_empty($name)) {
-            $output = $this->page->parseContentElement($name, "[--general--]", "", "general");
+        $name = $this->getBlockName($Block);
+        $text = implode("\n", $Block["element"]["handler"]["argument"]);
+        $attributes = $Block["element"]["data"]["specialAttributes"];
+        if (!is_string_empty($text)) {
+            $output = $this->page->parseContentElement($name, "[--general--]", $attributes, "general");
             if (!is_null($output) && preg_match("/^(.+)(\[--general--\])(.+)$/s", $output, $parts)) {
-                $text = implode("\n", $Block["element"]["handler"]["argument"]);
                 $text = $this->processTag("<p markdown=\"1\">$text</p>");
                 $output = $parts[1].$text.$parts[3];
                 $Block["element"] = array("rawHtml" => $output, "allowRawHtmlInSafeMode" => true, "autobreak" => true);
@@ -2941,8 +3006,8 @@ class YellowParsedownParser extends ParsedownExtra {
         return $FootnoteElement;
     }
     
-    // Return suitable name for code block or general block
-    public function getBlockName($Block, $attributes) {
+    // Return suitable name for block element
+    public function getBlockName($Block) {
         if (isset($Block["element"]["element"]["attributes"]["class"])) {
             $language = preg_replace("/language-(.*)/", "$1", $Block["element"]["element"]["attributes"]["class"]);
             $name = ltrim($language, ".");
@@ -2950,9 +3015,6 @@ class YellowParsedownParser extends ParsedownExtra {
             $name = $Block["element"]["attributes"]["class"];
         } else {
             $name = "";
-            foreach (explode(" ", $attributes) as $token) {
-                if (substru($token, 0, 1)==".") { $name = substru($token, 1); break; }
-            }
         }
         return $name;
     }
