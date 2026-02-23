@@ -2,7 +2,7 @@
 // Parsedown extension, https://github.com/annaesvensson/yellow-parsedown
 
 class YellowParsedown {
-    const VERSION = "0.9.6";
+    const VERSION = "0.9.7";
     public $yellow;         // access to API
     
     // Handle initialisation
@@ -2850,9 +2850,9 @@ class YellowParsedownParser extends ParsedownExtra {
                 $Block["element"] = array("rawHtml" => $output, "allowRawHtmlInSafeMode" => true, "autobreak" => true);
             } else {
                 $summary = "";
-                if (preg_match("/^[ ]*(.*?)[ ]*\n(\n*)([\S\s]*)$/m", $text, $parts) && !is_string_empty($parts[2])) {
+                if (preg_match("/^(.*?)\n\n(.*)$/s", $text, $parts)) {
                     $summary = $parts[1];
-                    $text = $parts[3];
+                    $text = $parts[2];
                 }
                 if (!is_string_empty($summary)) {
                     $Block["element"]["elements"][] = array(
