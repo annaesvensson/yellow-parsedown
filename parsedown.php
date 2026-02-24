@@ -2,7 +2,7 @@
 // Parsedown extension, https://github.com/annaesvensson/yellow-parsedown
 
 class YellowParsedown {
-    const VERSION = "0.9.7";
+    const VERSION = "0.9.8";
     public $yellow;         // access to API
     
     // Handle initialisation
@@ -2906,10 +2906,8 @@ class YellowParsedownParser extends ParsedownExtra {
         $text = implode("\n", $Block["element"]["handler"]["argument"]);
         $attributes = $Block["element"]["data"]["specialAttributes"];
         if (!is_string_empty($text)) {
-            $output = $this->page->parseContentElement($name, "[--general--]", $attributes, "general");
-            if (!is_null($output) && preg_match("/^(.+)(\[--general--\])(.+)$/s", $output, $parts)) {
-                $text = $this->processTag("<p markdown=\"1\">$text</p>");
-                $output = $parts[1].$text.$parts[3];
+            $output = $this->page->parseContentElement($name, $text, $attributes, "general");
+            if (!is_null($output)) {
                 $Block["element"] = array("rawHtml" => $output, "allowRawHtmlInSafeMode" => true, "autobreak" => true);
             }
         }
