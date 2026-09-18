@@ -2,7 +2,7 @@
 // Parsedown extension, https://github.com/annaesvensson/yellow-parsedown
 
 class YellowParsedown {
-    const VERSION = "0.9.8";
+    const VERSION = "0.9.9";
     public $yellow;         // access to API
     
     // Handle initialisation
@@ -2691,7 +2691,7 @@ class ParsedownExtra extends Parsedown
     protected $regexAttribute = '(?:[#.][-\w]+[ ]*)';
 }
 
-// Parsedown parser, Copyright Datenstrom, License GPLv2
+// Parsedown parser, Copyright Datenstrom and contributors, License EUPLv1.2-only
 
 class YellowParsedownParser extends ParsedownExtra {
     public $yellow;             // access to API
