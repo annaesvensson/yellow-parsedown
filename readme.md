@@ -187,6 +187,6 @@ class YellowExample {
 
 ## Acknowledgements
 
-This extension includes [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) by Emanuil Rusev. Thank you for the good work.
+This extension includes [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) by Emanuil Rusev. Thank you for the useful library.
 
 Do you have questions? [Get help](https://datenstrom.se/yellow/help/).

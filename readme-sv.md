@@ -187,6 +187,6 @@ class YellowExample {
 
 ## Tack
 
-Detta tillägg innehåller [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) av Emanuil Rusev. Tack för ett bra jobb.
+Detta tillägg innehåller [Parsedown Extra 1.8.0-beta-7](https://github.com/erusev/parsedown) av Emanuil Rusev. Tack för det användbara biblioteket.
 
 Har du några frågor? [Få hjälp](https://datenstrom.se/sv/yellow/help/).
