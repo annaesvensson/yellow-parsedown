@@ -2,7 +2,7 @@
 // Parsedown extension, https://github.com/annaesvensson/yellow-parsedown
 
 class YellowParsedown {
-    const VERSION = "0.9.9";
+    const VERSION = "0.9.10";
     public $yellow;         // access to API
     
     // Handle initialisation
@@ -2802,6 +2802,20 @@ class YellowParsedownParser extends ParsedownExtra {
                     );
                     $Element["attributes"] = array("class" => "task-list-item");
                     unset($Element["handler"]);
+                }
+            }
+        }
+        return $Block;
+    }
+    
+    // Handle tables, remove empty table header
+    protected function blockTableComplete(array $Block) {
+        if ($Block["element"]["name"]=="table") {
+            foreach ($Block["element"]["elements"] as &$Element) {
+                if ($Element["name"]=="thead" &&
+                    $this->elements($Element["elements"])=="\n<tr>\n<th></th>\n<th></th>\n</tr>\n") {
+                    $Element = array();
+                    break;
                 }
             }
         }

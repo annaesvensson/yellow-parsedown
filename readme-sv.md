@@ -1,4 +1,4 @@
-# Parsedown 0.9.9
+# Parsedown 0.9.10
 
 Textformatering för människor. Utvecklad av Anna Svensson.
 
