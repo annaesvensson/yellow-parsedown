@@ -2,7 +2,7 @@
 // Parsedown extension, https://github.com/annaesvensson/yellow-parsedown
 
 class YellowParsedown {
-    const VERSION = "0.9.10";
+    const VERSION = "0.9.11";
     public $yellow;         // access to API
     
     // Handle initialisation
@@ -2812,9 +2812,11 @@ class YellowParsedownParser extends ParsedownExtra {
     protected function blockTableComplete(array $Block) {
         if ($Block["element"]["name"]=="table") {
             foreach ($Block["element"]["elements"] as &$Element) {
-                if ($Element["name"]=="thead" &&
-                    $this->elements($Element["elements"])=="\n<tr>\n<th></th>\n<th></th>\n</tr>\n") {
-                    $Element = array();
+                if ($Element["name"]=="thead") {
+                    $tableHeaderText = $this->elements($Element["elements"]);
+                    $tableHeaderText = preg_replace("/<th(.*?)><\/th>\n/s", "", $tableHeaderText);
+                    $tableHeaderText = str_replace("\n<tr>\n</tr>\n", "", $tableHeaderText);
+                    if (is_string_empty($tableHeaderText)) $Element = array();
                     break;
                 }
             }
