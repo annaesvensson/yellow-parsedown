@@ -1,4 +1,4 @@
-# Parsedown 0.9.11
+# Parsedown 1.0.1
 
 Textformatierung für Menschen. Entwickelt von Anna Svensson.
 
